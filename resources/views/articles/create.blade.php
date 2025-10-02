@@ -1,20 +1,21 @@
 @extends('layouts.app')
-@section('title','Tạo bài viết')
+@section('title', 'Tạo bài viết')
 
 @section('content')
-<h2>Tạo bài viết</h2>
+<h2 class="text-xl mb-4">Tạo bài viết mới</h2>
 
-<x-alert type="warning" title="Lưu ý">Dữ liệu hiện chỉ mô phỏng (chưa lưu DB).</x-alert>
+<x-alert type="info">Nhập thông tin bài viết</x-alert>
 
-<form action="{{ route('articles.store') }}" method="post">
-  @csrf
-  <x-input name="title" label="Tiêu đề" />
-  <label style="display:block;margin:8px 0 4px">Nội dung</label>
-  <textarea name="body" rows="6" style="width:100%;padding:8px;border:1px solid #e5e7eb;border-radius:6px">{{ old('body') }}</textarea>
-  @error('body')
-    <div style="color:#991B1B;margin-top:4px">{{ $message }}</div>
-  @enderror
-
-  <button type="submit" style="margin-top:10px">Lưu</button>
+<form action="{{ route('articles.store') }}" method="POST">
+    @csrf
+    <x-input label="Tiêu đề" name="title" />
+    <div class="mb-3">
+        <label>Nội dung</label>
+        <textarea name="body" class="border rounded w-full p-2">{{ old('body') }}</textarea>
+        @error('body')
+            <div class="text-red-600 text-sm">{{ $message }}</div>
+        @enderror
+    </div>
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Lưu</button>
 </form>
 @endsection

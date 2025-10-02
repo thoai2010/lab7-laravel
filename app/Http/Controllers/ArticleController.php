@@ -3,17 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Article;
 
 class ArticleController extends Controller
 {
     public function index()
     {
-        $articles = [
-            ['id' => 1, 'title' => 'Giới thiệu Laravel 12', 'body' => 'Nội dung A'],
-            ['id' => 2, 'title' => 'Blade Components', 'body' => 'Nội dung B'],
-        ];
+        $articles = Article::all();
         return view('articles.index', compact('articles'));
     }
+
 
     public function create()
     {
@@ -22,14 +21,15 @@ class ArticleController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'title' => ['required','string','max:255'],
-            'body'  => ['required','string','min:10'],
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'body'  => 'required|string|min:10',
         ]);
 
-        // Demo: không lưu DB, chỉ redirect kèm flash
+        Article::create($request->only(['title','body']));
+
         return redirect()->route('articles.index')
-            ->with('success', 'Tạo bài viết thành công (demo).');
+            ->with('success', 'Bài viết đã được tạo thành công!');
     }
 
     public function show($id)
@@ -44,20 +44,25 @@ class ArticleController extends Controller
         return view('articles.edit', compact('article'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Article $article)
     {
-        $validated = $request->validate([
-            'title' => ['required','string','max:255'],
-            'body'  => ['required','string','min:10'],
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'body'  => 'required|string|min:10',
         ]);
 
+        $article->update($request->only(['title','body']));
+
         return redirect()->route('articles.index')
-            ->with('success', "Cập nhật bài viết #$id thành công (demo).");
+            ->with('success', "Cập nhật bài viết #{$article->id} thành công!");
     }
 
-    public function destroy($id)
+    public function destroy(Article $article)
     {
+        $article->delete();
+
         return redirect()->route('articles.index')
-            ->with('success', "Đã xoá bài viết #$id (demo).");
+            ->with('success', "Đã xoá bài viết #{$article->id}");
     }
+
 }
