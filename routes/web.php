@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\PageController;
 
 /*
  | Advanced routes (ví dụ trong lab)
@@ -25,3 +26,5 @@ Route::prefix('admin')->group(function () {
 // 4. Resource routes cho Article
 Route::resource('articles', ArticleController::class);
 
+
+Route::get('/about', [PageController::class, 'about'])->name('about');
