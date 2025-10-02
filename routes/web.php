@@ -31,3 +31,8 @@ Route::get('/about', [PageController::class, 'about'])->name('about');
 
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 Route::post('/contact', [PageController::class, 'handleContact'])->name('contact.submit');
+
+Route::get('/admin/articles', function () {
+    $articles = App\Models\Article::all();
+    return view('admin.articles.index', compact('articles'));
+})->name('admin.articles.index');

@@ -4,4 +4,5 @@
     <a href="{{ route('articles.create') }}" class="mr-4">Tạo bài viết</a>
     <a href="{{ route('about') }}" class="mr-4">Giới thiệu</a>
     <a href="{{ route('contact') }}" class="mr-4">Liên hệ</a>
+    <a href="{{ route('admin.articles.index') }}" class="mr-4">Quản trị</a>
 </nav>
